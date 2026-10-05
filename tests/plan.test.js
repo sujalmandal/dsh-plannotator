@@ -34,10 +34,12 @@ test('shouldInterceptExitPlanMode ignores every other tool', () => {
   }, planMode(true)), false)
 })
 
-test('shouldInterceptExitPlanMode intercepts from session events when planMode is not on this context', () => {
+test('shouldInterceptExitPlanMode intercepts from the session log when planMode is not on this context', () => {
   const agent = {
     inject() {},
-    session: { events: [{ type: 'plan/mode', data: { active: true } }] },
+    session: {
+      snapshotEvents: () => [{ type: 'plan/mode', data: { active: true } }],
+    },
   }
   assert.equal(shouldInterceptExitPlanMode({
     name: EXIT_PLAN_MODE,
